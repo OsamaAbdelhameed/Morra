@@ -3,12 +3,14 @@
 const [getResult, P2_Won, Draw, P1_Won] = makeEnum(3);
 
 const winner = (choiceA, choiceB, gChoiceA, gChoiceB) => {
-    if (gChoiceA == (choiceA + choiceB)) {
+    if(gChoiceA == gChoiceB)
+        return Draw;
+    else if(gChoiceA == (choiceA + choiceB)) {
         return P1_Won;
-    } else if (gChoiceB == (choiceA + choiceB)) {
+    } else if(gChoiceB == (choiceA + choiceB)) {
         return P2_Won;
-    }
-    return Draw;
+    } else
+        return Draw;
 };
 
 //assert
@@ -21,12 +23,19 @@ forall(UInt, a =>
     forall(UInt, b =>
         forall(UInt, c =>
             forall(UInt, d =>
-                assert(getResult(winner(a, b, c, d)))))));
+                assert(getResult(winner(a, b, c, d)))
+            )
+        )
+    )
+);
 
 forall(UInt, a =>
     forall(UInt, b =>
         forall(UInt, c =>
-            assert(winner(a, b, c, c) == Draw))));
+            assert(winner(a, b, c, c) == Draw)
+        )
+    )
+);
 
 //data definition
 const Shared = {
